@@ -4,11 +4,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import personal.timeless.cms.model.JsonResponse;
+
 @RestController
 public class Comments {
 	
 	@RequestMapping("/greeting")
-    public String greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return name;
+    public JsonResponse greeting(@RequestParam(value="name", defaultValue="World") String name) {
+        return new JsonResponse(200, "ok");
     }
 }

@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
 
-app.controller('mainController', ['$scope', function($scope) {
+app.controller('mainController', ['$scope', 'httpService', function($scope, httpService) {
 	window.localStorage.setItem("id", "1");
 	window.localStorage.setItem("username", "li");
 	window.localStorage.setItem("avatar", "images/li.jpg");
@@ -13,6 +13,12 @@ app.controller('mainController', ['$scope', function($scope) {
 	}
 
 	var tmptoWho = '';
+
+	httpService.get("http://localhost:8080/greeting", {}, function(data, a, b, c) {
+		console.log(data)
+	}, function() {
+
+	})
 
 	//current user information
 	$scope.user = {
