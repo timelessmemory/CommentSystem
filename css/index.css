@@ -1,0 +1,142 @@
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+      background: #c8c9ca;
+      border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+      background:#38c4a9;
+      min-height:6px;
+      width:5px;
+      border-radius:4px;
+} /* 滑块颜色 */
+
+.meta-top {
+	padding-top: 10px;
+	margin: 0px 0px 10px;
+}
+
+.avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
+}
+
+p.author {
+	margin: 0px;
+	line-height: 1;
+}
+
+a.name {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+span.publish-time {
+	font-size: 12px;
+	color: #999;
+}
+
+p.content {
+	word-break: break-all;
+	word-wrap: break-word;	
+}
+
+.comment-footer {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.like {
+	color: #999;
+	font-size: 13px;
+}
+
+.pull-left {
+	float: left;
+	margin-top: 3px;
+}
+
+.commment-head {
+	text-align: right;
+	border-top: 1px solid #EEE;
+	border-bottom: 1px solid #EEE;
+	color: #999;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 52px;
+}
+
+a:link {
+	color: #999;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #555;
+	font-size: 13px;
+    text-decoration: none;
+}
+
+a:visited {
+	color: #999;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.comment-text {
+	padding: 10px;
+	margin-top: 20px;
+	border: 1px solid #D9D9D9;
+	border-radius: 4px;
+}
+
+.comment-text textarea {
+	outline:none;
+	resize: none;
+	width: 100%;
+	height: 78px;
+	padding: 0px;
+	margin: 0px;
+	border: medium none;
+	font-size: 14px;
+	line-height: 20px;
+	overflow: auto;
+	color: #555;
+	vertical-align: middle;
+}
+
+.comment-list {
+	padding-bottom: 30px;
+	margin-top: 25px;
+	border-top: 1px dashed #EEE;
+	width: 450px;
+	margin-left:20px;
+}
+
+.first-level {
+	padding: 15px 0px 15px 10px;
+	border-left: 3px solid #38c4a9;
+	font-size: 13px;
+}
+
+.second-level {
+	margin-left:20px;
+	padding: 15px 0px 15px 10px;
+	border-bottom: 1px dashed #D9D9D9;
+	border-left: 3px solid #D9D9D9;
+	font-size: 13px;
+}
+
+.blue-link {
+	color: #4094C7;
+}
