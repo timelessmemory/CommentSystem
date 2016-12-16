@@ -18,7 +18,6 @@ public class CommentController {
 	
 	@RequestMapping("/greeting")
     public Saying greeting(@RequestParam(value="name", defaultValue="World") String name) {
-		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(commentService.QueryOneSaying(1).getCreateTime()));
 		return commentService.QueryOneSaying(1);
     }
 }
