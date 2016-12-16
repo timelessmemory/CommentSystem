@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="personal.timeless.cms.mapper.SayingMapper" >
+
+  <resultMap id="SayingMap" type="saying" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sayingContent" property="sayingContent" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="likes" property="likes" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Saying_Column_List" >
+    id, sayingContent, author, avatar, likes, createTime
+  </sql>
+  
+  <select id="selectOneById" resultMap="SayingMap" parameterType="int" >
+    select
+    <include refid="Saying_Column_List" />
+    from saying where id = #{id}
+  </select>
+ </mapper>

@@ -1,7 +1,9 @@
 package personal.timeless.cms.service;
 
+import personal.timeless.cms.bean.Saying;
+
 public interface CommentService {
 
-	public void Queryall();
+	public Saying QueryOneSaying(int id);
 
 }
