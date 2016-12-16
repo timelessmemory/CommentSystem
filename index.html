@@ -31,7 +31,7 @@
       </div>
 
       <div class="comment-footer clearfix">
-        <a class="like pull-left" href="javascript:void(0);" sayingId="{{saying.sayingId}}" ng-click="like(saying.sayingId)">
+        <a class="like pull-left" href="javascript:void(0);" ng-click="like(saying.sayingId)">
           <span ng-if="isShowLike" class="glyphicon glyphicon-heart"></span>
           <span ng-if="!isShowLike" class="glyphicon glyphicon-heart-empty"></span>
           <span>喜欢({{saying.likes.length}})</span>
