@@ -25,6 +25,7 @@ create table firstLevelComment (
 ##二级评论表
 create table secondLevelComment (
         slc_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        sayingId INT NOT NULL,
         flcId INT NOT NULL,
         replier VARCHAR(50) NOT NULL,
         toCommenter VARCHAR(50) NOT NULL,

@@ -75,7 +75,7 @@
             </p>
             <div class="comment-footer clearfix">
               <span class="publish-time pull-left" style="margin-top:0px;">{{comment.commentTime}}</span>
-              <a ng-if="comment.commenter == user.username" class="like delete" href="javascript:void(0);" ng-click="deletefstcmt(comment.id)">
+              <a ng-if="comment.commenter == user.username" class="like delete" href="javascript:void(0);" ng-click="deletefslcmt(comment.id)">
                 <span>删除</span>
               </a>
               <a class="like" href="javascript:void(0);" ng-click="showSecondComment(comment.commenter)">

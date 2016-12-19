@@ -13,7 +13,9 @@ public class FirstLevelComment {
 	private Saying saying;
 	private List<SecondLevelComment> slcs;
 	
-	public FirstLevelComment() {}
+	public FirstLevelComment() {
+		this.commentTime = new Date();
+	}
 	
 	public List<SecondLevelComment> getSlcs() {
 		return slcs;
@@ -34,11 +36,11 @@ public class FirstLevelComment {
 	public Integer getId() {
 		return id;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Integer getSayingId() {
 		return sayingId;
 	}
@@ -77,5 +79,11 @@ public class FirstLevelComment {
 	
 	public void setCommentTime(Date commentTime) {
 		this.commentTime = commentTime;
+	}
+
+	@Override
+	public String toString() {
+		return "FirstLevelComment [flc_id=" + id + ", sayingId=" + sayingId + ", commenter=" + commenter
+				+ ", avatar=" + avatar + ", commentContent=" + commentContent + ", commentTime=" + commentTime + "]";
 	}
 }

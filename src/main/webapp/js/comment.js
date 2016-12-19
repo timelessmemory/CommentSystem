@@ -2,8 +2,8 @@ var app = angular.module('app', []);
 
 app.controller('mainController', ['$scope', 'httpService', function($scope, httpService) {
 	window.localStorage.setItem("id", "1");
-	window.localStorage.setItem("username", "li");
-	window.localStorage.setItem("avatar", "images/li.jpg");
+	window.localStorage.setItem("username", "mario");
+	window.localStorage.setItem("avatar", "images/mario.jpg");
 
 	$scope.isShowComment = false;
 	$scope.isShowChildComment = false;
@@ -21,7 +21,7 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 		avatar : window.localStorage.getItem("avatar")
 	}
 
-	httpService.get("http://localhost:8080/saying/get?id=1", {}, function(data) {
+	httpService.get("http://localhost:8080/saying/get/comment/1", {}, function(data) {
 		$scope.saying = data;
 		$scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
 		$scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
@@ -36,12 +36,19 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 			$scope.saying.likes.push($scope.user.id)
 		}
 
-		console.log(sayingId)
 		$scope.saying.likes = $scope.saying.likes.join(",");
-		console.log($scope.saying.likes)
 
-		// $scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
-		// $scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
+		var data = {
+			id : sayingId,
+			likes : $scope.saying.likes
+		};
+
+		httpService.post("http://localhost:8080/saying/likes", data, function(data) {
+			$scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
+			$scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
+		}, function(error) {
+			console.log(error)
+		})
 	}
 
 	$scope.showComment = function() {
@@ -49,9 +56,26 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 	}
 
 	$scope.firstComment = function(sayingId) {
-		console.log($scope.commment.fstlvlcmt)
-		console.log(sayingId)
-		// $scope.commment.fstlvlcmt = ""
+		if ($scope.commment.fstlvlcmt == "") {
+			return;
+		}
+
+		var data = {
+			sayingId : sayingId,
+			commenter : $scope.user.username,
+			avatar : $scope.user.avatar,
+			commentContent : $scope.commment.fstlvlcmt,
+		}
+
+		httpService.post("http://localhost:8080/comment/add/first", data, function(result) {
+			data.id = result.id;
+			data.commentTime = result.commmentTime;
+			$scope.saying.flcs.push(data)
+			$scope.commment.fstlvlcmt = "";
+			$scope.isShowComment = false;
+		}, function(error) {
+			console.log(error)
+		})
 	}
 
 	$scope.showSecondComment = function(toWho) {
@@ -86,8 +110,15 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 		$scope.commment.scndlvlcmt = ""
 	}
 
-	$scope.deletefstcmt = function(firstlvlId) {
+	$scope.deletefslcmt = function(firstlvlId) {
 		
+		var url = "http://localhost:8080/comment/delete/" + $scope.saying.id + "/" + firstlvlId;
+		
+		httpService.get(url, {}, function(data) {
+			
+		}, function(error) {
+			console.log(error)
+		})
 	}
 
 	$scope.deletescndcmt = function(secondlvlId) {

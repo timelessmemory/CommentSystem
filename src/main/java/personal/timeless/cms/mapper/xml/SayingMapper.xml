@@ -28,6 +28,12 @@
   </resultMap>
   
   <select id="selectOneById" resultMap="SayingMap" parameterType="int" >
-    select s.*, fc.*, sc.* from saying s, firstLevelComment fc, secondLevelComment sc where s.saying_id=fc.sayingId and fc.flc_id=sc.flcId and s.saying_id=#{id}
+    select * from 
+    (select * from saying s, firstLevelComment fc where s.saying_id=fc.sayingId and s.saying_id=#{id}) tmp left join secondLevelComment sc
+    on tmp.flc_id = sc.flcId
+  </select>
+  
+   <select id="updateLikesById">
+   	update saying set likes = #{likes} where saying_id = #{id}
   </select>
  </mapper>
