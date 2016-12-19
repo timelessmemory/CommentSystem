@@ -75,20 +75,53 @@ p.content {
 	line-height: 52px;
 }
 
-a:link {
+.author a:link {
+	color: #4094C7;
+	text-decoration: none;
+}
+
+.author a:hover {
+	color: #075B8D;
+	text-decoration: none;
+}
+
+.author a:visited {
+	color: #4094C7;
+	text-decoration: none;
+}
+
+.comment-footer a:link {
 	color: #999;
 	font-size: 13px;
 	text-decoration: none;
 }
 
-a:hover {
+.comment-footer a:hover {
 	color: #555;
 	font-size: 13px;
     text-decoration: none;
 }
 
-a:visited {
+.comment-footer a:visited {
 	color: #999;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.reply a:link {
+	color: #4094C7;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.reply a:hover {
+	color: #075B8D;
+	font-size: 13px;
+    text-decoration: none;
+}
+
+.reply a:visited {
+	color: #4094C7;
 	font-size: 13px;
 	text-decoration: none;
 }

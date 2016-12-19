@@ -3,21 +3,31 @@
 <mapper namespace="personal.timeless.cms.mapper.SayingMapper" >
 
   <resultMap id="SayingMap" type="saying" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="saying_id" property="id" jdbcType="INTEGER" />
     <result column="sayingContent" property="sayingContent" jdbcType="INTEGER" />
     <result column="author" property="author" jdbcType="VARCHAR" />
-    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="likes" property="likes" jdbcType="INTEGER" />
+    <result column="sayingAvatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="likes" property="likes" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <collection property="flcs" ofType="firstLevelComment" column="sayingId">
+        <id column="flc_id" property="id" jdbcType="INTEGER" />
+        <result column="sayingId" property="sayingId" jdbcType="INTEGER" />
+        <result column="commenter" property="commenter"/>
+        <result column="commenterAvatar" property="avatar"/>
+        <result column="commentContent" property="commentContent"/>
+        <result column="commentTime" property="commentTime" jdbcType="TIMESTAMP" />
+        <collection property="slcs" ofType="secondLevelComment" column="flcId">
+	        <id column="slc_id" property="id" jdbcType="INTEGER" />
+	        <result column="flcId" property="flcId" jdbcType="INTEGER" />
+	        <result column="replier" property="replier"/>
+	        <result column="toCommenter" property="toCommenter"/>
+	        <result column="replyContent" property="replyContent"/>
+	        <result column="replyTime" property="replyTime" jdbcType="TIMESTAMP" />
+    	</collection>
+    </collection>
   </resultMap>
   
-  <sql id="Saying_Column_List" >
-    id, sayingContent, author, avatar, likes, createTime
-  </sql>
-  
   <select id="selectOneById" resultMap="SayingMap" parameterType="int" >
-    select
-    <include refid="Saying_Column_List" />
-    from saying where id = #{id}
+    select s.*, fc.*, sc.* from saying s, firstLevelComment fc, secondLevelComment sc where s.saying_id=fc.sayingId and fc.flc_id=sc.flcId and s.saying_id=#{id}
   </select>
  </mapper>

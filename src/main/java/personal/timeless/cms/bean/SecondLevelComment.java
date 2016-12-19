@@ -9,17 +9,16 @@ public class SecondLevelComment {
 	private String toCommenter;
 	private String replyContent;
 	private Date replyTime;
+	private FirstLevelComment flc;
 	
 	public SecondLevelComment() {}
 
-	public SecondLevelComment(Integer id, Integer flcId, String replier, String toCommenter, String replyContent,
-			Date replyTime) {
-		this.id = id;
-		this.flcId = flcId;
-		this.replier = replier;
-		this.toCommenter = toCommenter;
-		this.replyContent = replyContent;
-		this.replyTime = replyTime;
+	public FirstLevelComment getFlc() {
+		return flc;
+	}
+
+	public void setFlc(FirstLevelComment flc) {
+		this.flc = flc;
 	}
 
 	public Integer getId() {

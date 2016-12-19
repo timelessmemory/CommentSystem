@@ -31,7 +31,7 @@
       </div>
 
       <div class="comment-footer clearfix">
-        <a class="like pull-left" href="javascript:void(0);" sayingId="{{saying.sayingId}}" ng-click="like(saying.sayingId)">
+        <a class="like pull-left" href="javascript:void(0);" ng-click="like(saying.id)">
           <span ng-if="isShowLike" class="glyphicon glyphicon-heart"></span>
           <span ng-if="!isShowLike" class="glyphicon glyphicon-heart-empty"></span>
           <span>喜欢({{saying.likes.length}})</span>
@@ -44,7 +44,7 @@
 
       <div class="commment-head">
         <span class="pull-left" style="margin-top:0px;">
-          {{saying.comments.length}}条评论
+          {{saying.flcs.length}}条评论
         </span>
         <a class="like" href="javascript:void(0);" ng-click="showComment()">
           <span class="glyphicon glyphicon-pencil"></span>
@@ -58,14 +58,14 @@
           <textarea placeholder="写下你的评论…" maxlength="2000" ng-model="commment.fstlvlcmt"></textarea>
           <div style="text-align:right;">
             <button class="btn btn-sm btn-default" style="float:left;" ng-click="showComment()">取消</button>
-            <button class="btn btn-sm btn-info" ng-click="firstComment(saying.sayingId)">提交</button>
+            <button class="btn btn-sm btn-info" ng-click="firstComment(saying.id)">提交</button>
           </div>
         </div>
       </form>
 
       <div class="comment-list">
         <!--first level comment-->
-        <div class="first-level" ng-repeat="comment in saying.comments">
+        <div class="first-level" ng-repeat="comment in saying.flcs">
           <div class="meta-top">
             <a href="javascript:void(0);"> 
               <img class="avatar" ng-src="{{comment.avatar}}">
@@ -75,7 +75,7 @@
             </p>
             <div class="comment-footer clearfix">
               <span class="publish-time pull-left" style="margin-top:0px;">{{comment.commentTime}}</span>
-              <a ng-if="comment.commenter == user.username" class="like delete" href="javascript:void(0);" ng-click="deletefstcmt(comment.firstlvlId)">
+              <a ng-if="comment.commenter == user.username" class="like delete" href="javascript:void(0);" ng-click="deletefstcmt(comment.id)">
                 <span>删除</span>
               </a>
               <a class="like" href="javascript:void(0);" ng-click="showSecondComment(comment.commenter)">
@@ -86,8 +86,8 @@
           <p class="content">{{comment.commentContent}}</p>
 
           <!--second level comment-->
-          <div class="second-level" ng-repeat="childComment in comment.secondlvlComments">
-            <p>
+          <div class="second-level" ng-repeat="childComment in comment.slcs">
+            <p class="reply">
               <a href="javascript:void(0);" class="blue-link">{{childComment.replier}}</a>:
               <a href="javascript:void(0);" class="blue-link">@{{childComment.toCommenter}}</a>
               <span>{{childComment.replyContent}}</span>
@@ -96,7 +96,7 @@
               <span class="publish-time pull-left" style="margin-top:0px;">
                 {{childComment.replyTime}}
               </span>
-              <a ng-if="childComment.replier == user.username" class="like delete" href="javascript:void(0);" ng-click="deletescndcmt(childComment.secondlvlId)">
+              <a ng-if="childComment.replier == user.username" class="like delete" href="javascript:void(0);" ng-click="deletescndcmt(childComment.id)">
                 <span>删除</span>
               </a>
               <a class="like" href="javascript:void(0);" ng-click="showSecondComment(childComment.replier)">

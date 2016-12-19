@@ -1,27 +1,27 @@
 package personal.timeless.cms.bean;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Saying {
 	private Integer id;
 	private String sayingContent;
 	private String author;
 	private String avatar;
-	private int likes;
+	private String likes;
 	private Date createTime;
+	private List<FirstLevelComment> flcs;
 	
 	public Saying() {}
 	
-	public Saying(Integer id, String sayingContent, String author, String avatar, int likes, Date createTime) {
-		this.id = id;
-		this.sayingContent = sayingContent;
-		this.author = author;
-		this.avatar = avatar;
-		this.likes = likes;
-		this.createTime = createTime;
+	public List<FirstLevelComment> getFlcs() {
+		return flcs;
 	}
-	
+
+	public void setFlcs(List<FirstLevelComment> flcs) {
+		this.flcs = flcs;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -54,11 +54,11 @@ public class Saying {
 		this.avatar = avatar;
 	}
 	
-	public int getLikes() {
+	public String getLikes() {
 		return likes;
 	}
 	
-	public void setLikes(int likes) {
+	public void setLikes(String likes) {
 		this.likes = likes;
 	}
 	

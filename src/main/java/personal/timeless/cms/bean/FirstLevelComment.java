@@ -1,6 +1,7 @@
 package personal.timeless.cms.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class FirstLevelComment {
 	private Integer id;
@@ -9,19 +10,27 @@ public class FirstLevelComment {
 	private String avatar;
 	private String commentContent;
 	private Date commentTime;
+	private Saying saying;
+	private List<SecondLevelComment> slcs;
 	
 	public FirstLevelComment() {}
 	
-	public FirstLevelComment(Integer id, Integer sayingId, String commenter, String avatar, String commentContent,
-			Date commentTime) {
-		this.id = id;
-		this.sayingId = sayingId;
-		this.commenter = commenter;
-		this.avatar = avatar;
-		this.commentContent = commentContent;
-		this.commentTime = commentTime;
+	public List<SecondLevelComment> getSlcs() {
+		return slcs;
 	}
-	
+
+	public void setSlcs(List<SecondLevelComment> slcs) {
+		this.slcs = slcs;
+	}
+
+	public Saying getSaying() {
+		return saying;
+	}
+
+	public void setSaying(Saying saying) {
+		this.saying = saying;
+	}
+
 	public Integer getId() {
 		return id;
 	}

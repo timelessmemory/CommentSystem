@@ -14,12 +14,6 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 
 	var tmptoWho = '';
 
-	httpService.get("http://localhost:8080/greeting", {}, function(data, a, b, c) {
-		console.log(data)
-	}, function() {
-
-	})
-
 	//current user information
 	$scope.user = {
 		id : window.localStorage.getItem("id"),
@@ -27,31 +21,13 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 		avatar : window.localStorage.getItem("avatar")
 	}
 
-	$scope.saying = {
-		sayingId : "1",
-		author : "timelessmemory",
-		avatar : "images/timelessmemory.jpg",
-		createTime : "2016-12-12 14:00",
-		sayingContent : "Hello, everyone.",
-		likes : "",
-		comments : [{
-			firstlvlId : "1",
-			commenter : "mario",
-			avatar : "images/mario.jpg",
-			commentContent : "good saying",
-			commentTime : "2016-12-12 14:01",
-			secondlvlComments : [{
-				secondlvlId : "1",
-				replier : "smile",
-				toCommenter : "mario",
-				replyContent : "i think so, too.",
-				replyTime : "2016-12-12 14:02"
-			}]
-		}]
-	}
-
-	$scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
-	$scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
+	httpService.get("http://localhost:8080/saying/get?id=1", {}, function(data) {
+		$scope.saying = data;
+		$scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
+		$scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
+	}, function(error) {
+		console.log(error)
+	})
 
 	$scope.like = function(sayingId) {
 		if ($scope.saying.likes.contains($scope.user.id)) {
