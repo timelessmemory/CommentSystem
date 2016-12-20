@@ -29,7 +29,7 @@
   
   <select id="selectOneById" resultMap="SayingMap" parameterType="int" >
     select * from 
-    (select * from saying s, firstLevelComment fc where s.saying_id=fc.sayingId and s.saying_id=#{id}) tmp left join secondLevelComment sc
+    (select * from saying s left join firstLevelComment fc on s.saying_id=fc.sayingId where s.saying_id=#{id}) tmp left join secondLevelComment sc
     on tmp.flc_id = sc.flcId
   </select>
   

@@ -1,18 +1,37 @@
 var app = angular.module('app', []);
 
 app.controller('mainController', ['$scope', 'httpService', function($scope, httpService) {
-	window.localStorage.setItem("id", "1");
-	window.localStorage.setItem("username", "mario");
-	window.localStorage.setItem("avatar", "images/mario.jpg");
+	var mockusers = [{
+		"id" : "1",
+		"username" : "li",
+		"avatar" : "images/li.jpg"
+	}, {
+		"id" : "2",
+		"username" : "mario",
+		"avatar" : "images/mario.jpg"
+	}, {
+		"id" : "3",
+		"username" : "timelessmemory",
+		"avatar" : "images/timelessmemory.jpg"
+	}, {
+		"id" : "4",
+		"username" : "smile",
+		"avatar" : "images/smile.jpg"
+	},]
+
+	var currentUserIndex = 2;
+
+	window.localStorage.setItem("id", mockusers[currentUserIndex].id);
+	window.localStorage.setItem("username", mockusers[currentUserIndex].username);
+	window.localStorage.setItem("avatar", mockusers[currentUserIndex].avatar);
 
 	$scope.isShowComment = false;
-	$scope.isShowChildComment = false;
-	$scope.commment = {
-		fstlvlcmt : "",
-		scndlvlcmt : ''
+
+	$scope.cmt = {
+		fstlvlcmt : ""
 	}
 
-	var tmptoWho = '';
+	var sayingID, flcId, slcId;
 
 	//current user information
 	$scope.user = {
@@ -36,15 +55,15 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 			$scope.saying.likes.push($scope.user.id)
 		}
 
-		$scope.saying.likes = $scope.saying.likes.join(",");
+		var tmpLikes = $scope.saying.likes;
+		tmpLikes = tmpLikes.join(",");
 
 		var data = {
 			id : sayingId,
-			likes : $scope.saying.likes
+			likes : tmpLikes
 		};
 
 		httpService.post("http://localhost:8080/saying/likes", data, function(data) {
-			$scope.saying.likes = $scope.saying.likes.split(",")[0] == "" ? [] : $scope.saying.likes.split(",");
 			$scope.isShowLike = $scope.saying.likes.contains($scope.user.id);
 		}, function(error) {
 			console.log(error)
@@ -56,7 +75,14 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 	}
 
 	$scope.firstComment = function(sayingId) {
-		if ($scope.commment.fstlvlcmt == "") {
+
+		if ($scope.cmt.fstlvlcmt == "") {
+			$('#hintDiv').fadeIn(300);
+			
+			setTimeout(function() {
+				$('#hintDiv').fadeOut(300);
+			}, 800);
+
 			return;
 		}
 
@@ -64,65 +90,144 @@ app.controller('mainController', ['$scope', 'httpService', function($scope, http
 			sayingId : sayingId,
 			commenter : $scope.user.username,
 			avatar : $scope.user.avatar,
-			commentContent : $scope.commment.fstlvlcmt,
+			commentContent : $scope.cmt.fstlvlcmt,
 		}
 
 		httpService.post("http://localhost:8080/comment/add/first", data, function(result) {
 			data.id = result.id;
-			data.commentTime = result.commmentTime;
+			data.commentTime = result.commentTime;
 			$scope.saying.flcs.push(data)
-			$scope.commment.fstlvlcmt = "";
+			$scope.cmt.fstlvlcmt = "";
 			$scope.isShowComment = false;
+			console.log($scope.saying.flcs)
 		}, function(error) {
 			console.log(error)
 		})
 	}
 
-	$scope.showSecondComment = function(toWho) {
-		if (!$scope.isShowChildComment) {
-			$scope.commment.scndlvlcmt = "@" + toWho + " ";
-			tmptoWho = toWho;
-			$scope.isShowChildComment = true;
+	$scope.showSecondComment = function(comment, toWho) {
+		if (!comment.isShowChildComment) {
+			comment.scndlvlcmt = "@" + toWho + " ";
+			comment.tmptoWho = toWho;
+			comment.isShowChildComment = true;
 		} else {
-			if (toWho == tmptoWho) {
-				$scope.isShowChildComment = false;
-				tmptoWho = "";
-				$scope.commment.scndlvlcmt = "";
+			if (toWho == comment.tmptoWho) {
+				comment.isShowChildComment = false;
+				comment.tmptoWho = "";
+				comment.scndlvlcmt = "";
 			} else {
-				$scope.commment.scndlvlcmt = "@" + toWho + " ";
-				tmptoWho = toWho;
+				comment.scndlvlcmt = "@" + toWho + " ";
+				comment.tmptoWho = toWho;
 			}
 		}
 	}
 
-	$scope.hideSecondComment = function() {
-		$scope.isShowChildComment = false;
-		tmptoWho = "";
-		$scope.commment.scndlvlcmt = "";
+	$scope.hideSecondComment = function(comment) {
+		comment.isShowChildComment = false;
+		comment.tmptoWho = "";
+		comment.scndlvlcmt = "";
 	}
 
-	$scope.reply = function() {
-		var scndlvlcmt = $scope.commment.scndlvlcmt;
-		var str = "@" + tmptoWho;
+	$scope.reply = function(sayingId, comment) {
+		var scndlvlcmt = comment.scndlvlcmt;
+		var str = "@" + comment.tmptoWho;
 		
-		console.log(scndlvlcmt.substr(scndlvlcmt.indexOf(str) + str.length))
-		console.log(tmptoWho)
-		$scope.commment.scndlvlcmt = ""
-	}
-
-	$scope.deletefslcmt = function(firstlvlId) {
-		
-		var url = "http://localhost:8080/comment/delete/" + $scope.saying.id + "/" + firstlvlId;
-		
-		httpService.get(url, {}, function(data) {
+		if (scndlvlcmt == "" || $.trim(scndlvlcmt) == str) {
+			$('#hintDiv').fadeIn(300);
 			
+			setTimeout(function() {
+				$('#hintDiv').fadeOut(300);
+			}, 800);
+
+			return;
+		}
+		
+		var cmt = "";
+
+		if (scndlvlcmt.indexOf(str) >= 0) {
+			cmt = scndlvlcmt.substr(scndlvlcmt.indexOf(str) + str.length)
+		} else {
+			cmt = scndlvlcmt;
+		}
+
+		var data = {
+			sayingId : sayingId,
+			flcId : comment.id,
+			replier : $scope.user.username,
+			toCommenter : comment.tmptoWho,
+			replyContent :  cmt
+		}
+
+		httpService.post("http://localhost:8080/comment/add/second", data, function(result) {
+			comment.isShowChildComment = false;
+			comment.scndlvlcmt = "";
+			data.id = result.id;
+			data.replyTime = result.replyTime;
+
+			angular.forEach($scope.saying.flcs, function(item) {
+				if (item.id == comment.id) {
+					item.slcs.push(data);
+				}
+			})
 		}, function(error) {
 			console.log(error)
 		})
 	}
 
-	$scope.deletescndcmt = function(secondlvlId) {
+	$scope.deletefslcmt = function(sayingId, firstlvlId) {
+		$('#commentModal').modal("show");
+		sayingID = sayingId;
+		flcId = firstlvlId;
+	}
 
+	$scope.confirm = function() {
+		$('#commentModal').modal("hide");
+
+		var url = "http://localhost:8080/comment/delete/first/" + sayingID + "/" + flcId;
+		
+		httpService.get(url, {}, function(data) {
+			//local delete comment
+			angular.forEach($scope.saying.flcs, function(item, index) {
+				if (item.id == flcId) {
+					$scope.saying.flcs.splice(index, 1);
+				}
+			})
+			sayingID = "";
+			flcId = "";
+		}, function(error) {
+			console.log(error)
+		})
+	}
+
+	$scope.deletescndcmt = function(sayingId, firstlvlId, secondlvlId) {
+		$('#slcModal').modal("show");
+		sayingID = sayingId;
+		flcId = firstlvlId;
+		slcId = secondlvlId;
+	}
+
+	$scope.confirmSlc = function() {
+		$('#slcModal').modal("hide");
+
+		var url = "http://localhost:8080/comment/delete/second/" + sayingID + "/" + slcId;
+		
+		httpService.get(url, {}, function(data) {
+			//local delete second level comment
+			angular.forEach($scope.saying.flcs, function(item) {
+				if (item.id == flcId) {
+					angular.forEach(item.slcs, function(slc, index) {
+						if (slc.id == slcId) {
+							item.slcs.splice(index, 1);
+						}
+					})
+				}
+			})
+			sayingID = "";
+			flcId = "";
+			slcId = "";
+		}, function(error) {
+			console.log(error)
+		})
 	}
 
 }]);

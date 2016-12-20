@@ -16,6 +16,14 @@
       border-radius:4px;
 } /* 滑块颜色 */
 
+.hintDiv {
+	width: 100%;
+	display: none;
+    z-index: 9999;
+    text-align: center;
+    position: relative;
+}
+
 .meta-top {
 	padding-top: 10px;
 	margin: 0px 0px 10px;
@@ -90,19 +98,19 @@ p.content {
 	text-decoration: none;
 }
 
-.comment-footer a:link {
+.comment-footer a:link, .commment-head a:link {
 	color: #999;
 	font-size: 13px;
 	text-decoration: none;
 }
 
-.comment-footer a:hover {
+.comment-footer a:hover, .commment-head a:hover {
 	color: #555;
 	font-size: 13px;
     text-decoration: none;
 }
 
-.comment-footer a:visited {
+.comment-footer a:visited, .commment-head a:visited {
 	color: #999;
 	font-size: 13px;
 	text-decoration: none;
@@ -172,4 +180,8 @@ p.content {
 
 .blue-link {
 	color: #4094C7;
+}
+
+.delete-reply {
+	margin-left: 12px;
 }

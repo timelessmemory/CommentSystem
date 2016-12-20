@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class SecondLevelComment {
 	private Integer id;
+	private Integer sayingId;
 	private Integer flcId;
 	private String replier;
 	private String toCommenter;
@@ -11,7 +12,9 @@ public class SecondLevelComment {
 	private Date replyTime;
 	private FirstLevelComment flc;
 	
-	public SecondLevelComment() {}
+	public SecondLevelComment() {
+		this.replyTime = new Date();
+	}
 
 	public FirstLevelComment getFlc() {
 		return flc;
@@ -19,6 +22,14 @@ public class SecondLevelComment {
 
 	public void setFlc(FirstLevelComment flc) {
 		this.flc = flc;
+	}
+
+	public Integer getSayingId() {
+		return sayingId;
+	}
+
+	public void setSayingId(Integer sayingId) {
+		this.sayingId = sayingId;
 	}
 
 	public Integer getId() {
@@ -67,5 +78,11 @@ public class SecondLevelComment {
 	
 	public void setReplyTime(Date replyTime) {
 		this.replyTime = replyTime;
+	}
+
+	@Override
+	public String toString() {
+		return "SecondLevelComment [id=" + id + ", sayingId=" + sayingId + ", flcId=" + flcId + ", replier=" + replier
+				+ ", toCommenter=" + toCommenter + ", replyContent=" + replyContent + ", replyTime=" + replyTime + "]";
 	}
 }
