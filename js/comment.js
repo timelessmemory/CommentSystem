@@ -118,9 +118,8 @@ app.factory('httpService', ['$http', function($http) {
   return {
     get : function(url, params, successCallback, errorCallback) {
         $http({
-            url : url,
+            url : url + "?" + $.param(params),
             method : 'get',
-            data : $.param(params),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
             responseType : 'json'
         })
